@@ -1,2 +1,2 @@
-# mawaesu.tky
-TO know you, Find you and Be you.
+# MAWAESU-TKY
+To know you, To be a Better you.  

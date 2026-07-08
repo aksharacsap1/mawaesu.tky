@@ -1,0 +1,2069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="google-site-verification" content="8CxaVokVQYeElikM9vb1y-6qnhHtNzZpDB1sn_-_aY4" />
+<title>MAWAESU</title>
+<style>
+#loginOverlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: none; 
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.8);
+    z-index: 999999999;
+}
+</style>
+
+
+<style>
+
+.password-hint {
+  font-size: 0.8rem;
+  color: #444;
+  margin: 6px auto 12px;
+  max-width: 320px;
+  line-height: 1.4;
+}
+
+/* ================= BASE ================= */
+* {
+  box-sizing: border-box;
+}
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #000;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* App wrapper */
+#appRoot {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Pages */
+.page {
+  display: none;
+  width: 100%;
+  max-width: 960px;
+
+  max-height: 90vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  padding: 40px 30px;
+  border-radius: 25px;
+
+  display: flex;
+  flex-direction: column;
+
+  animation: fadeIn 0.4s ease forwards;
+}
+
+/* ================= LOGIN PAGE ================= */
+#loginPage {
+  background: radial-gradient(circle at top, #4B0082, #000);
+  color: #FFD700;
+  text-align: center;
+}
+
+#loginPage input {
+  width: 100%;
+  max-width: 320px;
+  margin: 10px auto;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: none;
+  font-size: 1rem;
+}
+
+/* ================= SIGNUP PAGE ================= */
+#signupPage {
+  background: radial-gradient(circle at top, #e6d9ff, #cbb7f5);
+  color: #111;
+  text-align: center;
+}
+
+#signupPage h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+#signupPage .auth-sub {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+}
+
+/* Inputs */
+#signupPage input {
+  width: 100%;
+  max-width: 320px;
+  margin: 10px auto;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid #b8a6e8;
+  font-size: 1rem;
+  background: #f9f6ff;
+  color: #111;
+}
+
+#signupPage input::placeholder {
+  color: #666;
+}
+
+/* Gold Button */
+#signupPage .primary-btn {
+  margin-top: 14px;
+  padding: 14px 24px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #ffd700, #ffbf00);
+  color: #111;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 22px rgba(255, 215, 0, 0.35);
+}
+
+#signupPage .primary-btn:hover {
+  background: linear-gradient(135deg, #ffcc00, #e6b800);
+}
+
+/* Switch text */
+#signupPage .auth-switch {
+  margin-top: 18px;
+  font-size: 0.9rem;
+  color: #222;
+}
+
+#signupPage .auth-switch span {
+  color: #6a0dad;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+}
+/* ================= FORGOT PASSWORD PAGE ================= */
+#forgotPage {
+  background: radial-gradient(circle at top, #e6d9ff, #cbb7f5);
+  color: #111;
+  text-align: center;
+}
+
+#forgotPage h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+#forgotPage .auth-sub {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+/* Inputs */
+#forgotPage input {
+  width: 100%;
+  max-width: 320px;
+  margin: 10px auto;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid #b8a6e8;
+  font-size: 1rem;
+  background: #f9f6ff;
+  color: #111;
+}
+
+#forgotPage input::placeholder {
+  color: #666;
+}
+
+/* Gold Button */
+#forgotPage .primary-btn {
+  margin-top: 14px;
+  padding: 14px 24px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #ffd700, #ffbf00);
+  color: #111;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 22px rgba(255, 215, 0, 0.35);
+}
+
+#forgotPage .primary-btn:hover {
+  background: linear-gradient(135deg, #ffcc00, #e6b800);
+}
+
+/* Back to login */
+#forgotPage .auth-switch {
+  margin-top: 18px;
+  font-size: 0.9rem;
+  color: #222;
+}
+
+#forgotPage .auth-switch span {
+  color: #6a0dad;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+
+/* ================= OPENING PAGE ================= */
+#openingPage {
+  background: #4B0082;
+  color: #FFF;
+  text-align: center;
+}
+
+#openingPage h1 {
+  color: #FFD700;
+  margin-bottom: 30px;
+}
+
+/* ================= BUTTONS ================= */
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 20px;
+  padding: 15px 35px;
+  font-size: 1.1rem;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 18px rgba(255,215,0,0.35);
+}
+
+#startQuizBtn {
+  background: #FFD700;
+  color: #000;
+}
+
+#continueResultBtn,
+#continueIntroBtn,
+#continueColorBtn,
+#nextStepBtn,
+#roomAnalysisBtn {
+  background: #4B0082;
+  color: #FFD700;
+}
+
+/* ================= QUIZ PAGE ================= */
+#quizPage {
+  background: #000;
+  color: #FFD700;
+}
+
+#quizPage h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#progressContainer {
+  background: #333;
+  border-radius: 20px;
+  height: 15px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+#progressBar {
+  height: 100%;
+  width: 0%;
+  background: #FFD700;
+  transition: width 0.4s ease;
+}
+
+.question {
+  background: #111;
+  padding: 24px;
+  border-radius: 20px;
+  margin-bottom: 22px;
+}
+
+.question button {
+  width: 100%;
+  margin: 8px 0;
+  background: #000;
+  color: #FFD700;
+  border: 1px solid #FFD700;
+}
+
+/* ================= RESULT PAGE ================= */
+#resultPage {
+  background: #4B0082;
+  color: #FFD700;
+  text-align: center;
+}
+
+/* ================= INFO PAGES ================= */
+#introPage {
+  background: #0B1E4F;
+  color: #FFD700;
+}
+
+#colorPage {
+  background: #003366;
+  color: #FFD700;
+}
+
+#colorAnalysisPage {
+  background: #111;
+  color: #FFD700;
+}
+
+/* ================= ANALYSIS CARDS ================= */
+.analysisWrap {
+  max-width: 960px;
+  margin: auto;
+}
+
+.analysisCard {
+  background: #F5F1E3;
+  padding: 24px;
+  border-radius: 14px;
+  color: #333;
+}
+
+.analysisSub,
+.note {
+  text-align: center;
+  font-size: 14px;
+}
+
+/* ================= ROOM ANALYSIS ================= */
+
+.neuroGrid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:18px;
+margin-top:20px;
+}
+
+.neuroCard{
+background:#ffffff;
+border-radius:14px;
+padding:18px;
+cursor:pointer;
+box-shadow:0 4px 14px rgba(0,0,0,0.08);
+transition:0.3s;
+}
+
+.neuroCard:hover{
+transform:translateY(-4px);
+}
+
+.neuroTitle{
+font-size:18px;
+font-weight:700;
+margin-bottom:8px;
+}
+
+.neuroSpec{
+font-size:14px;
+opacity:0.8;
+margin-bottom:10px;
+}
+
+.expandPanel{
+display:none;
+margin-top:12px;
+padding:14px;
+background:#f7f7f7;
+border-radius:10px;
+}
+
+.expandRow{
+margin-bottom:10px;
+}
+
+.expandLabel{
+font-weight:700;
+font-size:14px;
+}
+
+.tswpGrid{
+margin-top:30px;
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:14px;
+}
+
+.tswpCard{
+background:#fafafa;
+padding:14px;
+border-radius:10px;
+font-size:14px;
+}
+/* ================= PROFILE POLAROID SYSTEM ================= */
+
+/* ================= PROFILE POLAROID ================= */
+
+.profileWrapper{
+display:flex;
+gap:30px;
+flex-wrap:wrap;
+justify-content:center;
+padding:20px;
+}
+
+.polaroid{
+background:white;
+padding:15px 15px 40px 15px;
+box-shadow:0 6px 18px rgba(0,0,0,.25);
+border-radius:6px;
+width:320px;
+position:relative;
+}
+
+.polaroid::after{
+content:"";
+position:absolute;
+bottom:10px;
+left:50%;
+transform:translateX(-50%);
+width:80%;
+height:6px;
+background:rgba(0,0,0,.1);
+border-radius:50%;
+}
+
+.avatarStage{
+width:100%;
+height:400px;
+background:#f2f2f2;
+border-radius:6px;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+/* ================= SELECTOR GRID ================= */
+
+.selectorGrid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(70px,1fr));
+gap:12px;
+}
+
+.selectorTile{
+background:#fff;
+border-radius:10px;
+padding:6px;
+cursor:pointer;
+transition:.25s;
+box-shadow:0 2px 6px rgba(0,0,0,.2);
+}
+
+.selectorTile:hover{
+transform:scale(1.1);
+}
+
+/* ================= ANALYSIS CARDS ================= */
+
+.analysisCard{
+background:white;
+padding:18px;
+border-radius:12px;
+box-shadow:0 4px 12px rgba(0,0,0,.15);
+margin-bottom:15px;
+}
+
+.paletteRow{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+}
+
+.mini-swatch{
+width:32px;
+height:32px;
+border-radius:6px;
+border:1px solid #000;
+}
+
+/* ================= FILTER CHIPS ================= */
+
+.filterRow{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-bottom:12px;
+}
+
+.filterChip{
+padding:6px 12px;
+background:#eee;
+border-radius:20px;
+cursor:pointer;
+}
+
+.filterChip.active{
+background:#333;
+color:white;
+}
+/* ================= ANIMATION ================= */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 520px) {
+  .page {
+    padding: 24px 18px;
+  }
+
+  button {
+    padding: 12px 20px;
+    font-size: 1rem;
+  }
+}
+
+.page {
+  display: none;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+</style>
+</head>
+<body>
+<div id="appRoot">
+
+<!-- Login Page -->
+<div id="loginPage" class="page auth-page">
+  <div class="auth-card">
+    <h1>Welcome Back</h1>
+    <p class="auth-sub">Log in to continue</p>
+
+    <input id="loginEmail" type="email" placeholder="Email" />
+    <input id="loginPassword" type="password" placeholder="Password" />
+    <button id="loginBtn" class="primary-btn">
+      Login
+    </button>
+
+     <p class="auth-switch">
+      New here?
+      <span onclick="showPage('signupPage')">Create an account</span>
+    </p>
+    <p class="auth-switch">
+  <span onclick="showPage('forgotPage')">Forgot password?</span>
+</p>
+  </div>
+</div>
+
+<!-- Forgot Password Page -->
+<div id="forgotPage" class="page auth-page">
+  <div class="auth-card">
+    <h1>Reset Password</h1>
+    <p class="auth-sub">
+      Enter your registered email. We’ll send you a password reset link.
+    </p>
+
+    <input
+      id="forgotEmail"
+      type="email"
+      placeholder="Registered email"
+      required
+    />
+
+    <button id="resetBtn" class="primary-btn">
+      Send Reset Email
+    </button>
+
+    <p class="auth-switch">
+      <span onclick="showPage('loginPage')">← Back to Login</span>
+    </p>
+  </div>
+</div>
+
+
+<!-- SignUp Page -->
+<div id="signupPage" class="page auth-page">
+  <div class="auth-card">
+    <h1>Create Account</h1>
+    <p class="auth-sub">Start your journey</p>
+
+    <input
+      id="signupName"
+      type="text"
+      placeholder="Full name"
+      required
+    />
+
+    <input
+      id="signupEmail"
+      type="email"
+      placeholder="Email address"
+      required
+    />
+
+    <input
+      id="signupPassword"
+      type="password"
+      placeholder="Create a strong password"
+      required
+    />
+
+    <!-- Password rules hint -->
+    <p class="password-hint">
+      Must be at least 8 characters and include uppercase, lowercase, number, and special character.
+    </p>
+
+    <button id="signupBtn" class="primary-btn">
+      Sign Up
+    </button>
+
+    <p class="auth-switch">
+      Already have an account?
+      <span onclick="showPage('loginPage')">Log in</span>
+    </p>
+  </div>
+</div>
+
+
+<!-- Opening Page -->
+<div id="openingPage" class="page">
+  <h1>To know you, take this test.</h1>
+<button id="startQuizBtn" onclick="showPage('quizPage')">TEST NOW</button>
+</div>
+
+<!-- Quiz Page -->
+<div id="quizPage" class="page">
+  <h1>Archetype Quiz</h1>
+  <div id="progressContainer"><div id="progressBar"></div></div>
+  <div id="quiz"></div>
+</div>
+
+<!-- Result Page -->
+<div id="resultPage" class="page">
+  <h2 id="archetypeName"></h2>
+  <p id="archetypeDesc"></p>
+  <button id="continueResultBtn" onclick="showPage('introPage')">CONTINUE</button>
+</div>
+
+<!-- Introduction Page -->
+<div id="introPage" class="page">
+  <h1>Hello, I’m CSAP! 🌟</h1>
+  <p>
+  I’m on a personal and purposeful journey to help people know themselves, become their truest selves, and stay grounded in who they are. Life can be complex, confusing, and full of expectations—sometimes we lose sight of who we really are. My goal is to create a space where you can pause, reflect, and explore yourself with curiosity and compassion.
+  </p>
+  <p>
+  Here, you’ll find insights, exercises, and analyses designed to help you understand your patterns, preferences, strengths, and challenges. These insights are gathered from freely available information across books, studies, personality frameworks, and other resources. While I put care and thought into presenting this information, this is a survey-type exploration and not professional advice. Think of it as a reflective guide—a map to help you navigate your own journey, rather than a prescription or therapy.
+  </p>
+  <p>
+  This journey is about self-discovery in its purest form. It’s about noticing what makes you light up, what pulls you down, and what makes you uniquely you. It’s about creating awareness, building self-trust, and celebrating your authenticity.
+  </p>
+  <p>
+  So whether you’re here to understand your personality, explore your habits, or simply reflect on your inner world, know that this is a safe, judgment-free space to grow and connect with yourself. Together, let’s step into the adventure of being fully, unapologetically ourselves. ✨
+  </p>
+  <button id="continueIntroBtn" onclick="showPage('colorPage')">CONTINUE</button>
+</div>
+
+<!-- Color Science Page -->
+<div id="colorPage" class="page">
+  <h1>The Science of Color and Its Effect on Life</h1>
+  <p>
+  How We Perceive Color<br><br>
+  Colors are wavelengths of light, and our eyes perceive them through specialized cells called cones in the retina. Humans typically have three types of cones, sensitive to red, green, and blue.<br><br>
+  Our brain interprets the combination of signals from these cones to create the colors we see. This means that even the same color can appear subtly different to different people depending on factors like genetics, mood, and environment.<br><br>
+  Physiological Responses<br><br>
+  Colors can influence the nervous system, triggering responses like increased heart rate, relaxation, or alertness.<br>
+  Red: Can increase heart rate, boost energy, and evoke passion or urgency.<br>
+  Blue: Often slows heart rate, promotes calm, focus, and trust.<br>
+  Yellow: Stimulates mental activity, creativity, and optimism.<br>
+  Green: Soothes the nervous system, linked to growth and harmony.<br><br>
+  Scientific studies show that exposure to colors affects hormones and brain waves, which directly influence mood, productivity, and even appetite.<br><br>
+  Psychological and Emotional Effects<br><br>
+  Color psychology explains that colors carry emotional weight and can trigger memories, cultural associations, and subconscious responses.<br>
+  For example, a room painted warm orange may evoke comfort or social warmth, while gray tones can lead to introspection or melancholy.<br>
+  Importantly, the same color can evoke different feelings in different people based on personal experiences and cultural background.<br><br>
+  Colors as Representations of Personality and Identity<br><br>
+  Individual Preferences and Perceptions<br>
+  People naturally gravitate toward colors that reflect their inner states or desired emotional outcomes.<br>
+  This is why personality assessments often use colors to represent traits: boldness, sensitivity, optimism, or leadership.<br><br>
+  Cultural and Personal Meaning<br>
+  Colors carry meanings beyond biology. Personal memories can attach emotional weight to colors.<br>
+  This means color’s impact is deeply subjective, shaping each person’s thoughts, behaviors, and feelings differently.<br><br>
+  How Color Shapes Us<br>
+  Mood and Behavior: Color can influence decision-making, creativity, and social interaction.<br>
+  Self-Expression and Identity: Colors are a form of non-verbal communication.<br>
+  Therapeutic and Healing Applications: Color therapy, or chromotherapy, uses specific wavelengths of light to target emotional and physical well-being.<br><br>
+  Key Insight: Each Of Us Sees And Feels Colors Differently<br>
+  Even though we share biology, our personal experiences, moods, and cultural lenses make color perception unique.<br>
+  Takeaway: Colors are more than aesthetic—they are a subtle force shaping our mental states, personalities, and life experiences.
+  </p>
+  <button id="continueColorBtn" onclick="showPage('colorAnalysisPage')">CONTINUE</button>
+</div>
+
+<!-- Colour Analysis Page -->
+<div id="colorAnalysisPage" class="page">
+  <div class="analysisWrap">
+    <div class="analysisCard" id="analysisCard">
+      <h1>Colour Analysis</h1>
+      <div class="analysisSub">A tailored palette and notes for your archetype — core colours first, then helping colours.</div>
+      <div id="contentArea"></div>
+      <div class="note">If nothing appears, make sure your quiz saved <code>localStorage.setItem('archetypeResult', '🌫️ The Silent Ache')</code> or <code>localStorage.setItem('archetypeScore', '7')</code>.</div>
+    </div>
+    <button id="nextStepBtn" onclick="showPage('roomIntroPage')" style="margin-top:30px;">
+  NEXT STEP
+</button>
+  </div>
+</div>
+
+<!-- Room Introduction Page -->
+<div id="roomIntroPage" class="page" style="background:#4B0082; color:#FFD700;">
+  <h1>🧠 The Psychological Connection Between Mind and Space</h1>
+  <p>The mind and the space we live in are deeply intertwined — every wall color, texture, sound, and light source shapes our emotions, thoughts, and even how we regulate energy. Psychologically, this relationship is known as environmental cognition — the process by which our surroundings influence how we feel, think, and behave. In simpler terms, our spaces quietly teach our minds how to exist.</p>
+  <h2>🧍‍♀️ The Body’s Search for Safety</h2>
+  <p>When a person enters a room, their brain immediately begins to scan for safety. This happens subconsciously through sensory processing. Warm light, natural materials, and organized layouts signal comfort and predictability, activating the parasympathetic nervous system, which slows the heart rate and allows calm, creative thought. In contrast, harsh lighting, clutter, or sharp contrasts can trigger low-grade stress, activating the sympathetic nervous system — the body’s alert mode. Over time, these environmental signals accumulate, shaping mood patterns and stress responses.</p>
+  <h2>🎨 The Emotional Language of Color, Light, and Texture</h2>
+  <p>Color, light, and texture all carry emotional “frequencies.” Soft matte finishes and muted tones reduce overstimulation by giving the eyes rest, helping the brain lower cortisol levels. Warm colors like amber or terracotta ignite motivation and comfort, while cool hues like sage or blue enhance reflection and tranquility. Even flooring textures matter: soft rugs or wooden floors provide tactile grounding, reminding the body that it is supported — a subtle, physical reassurance that aids mental stability.</p>
+  <h2>🪞 Space as a Mirror of Emotion and Identity</h2>
+  <p>Psychologically, space also mirrors identity and emotional state. Cluttered or dark rooms can amplify inner chaos or exhaustion, while minimalist, organized spaces promote mental clarity and self-control. This is not about luxury — even small sensory details, like how light falls on a desk or how air circulates through a window, can shift the nervous system from tension to ease. The mind seeks coherence — when the external environment aligns with internal emotion, we feel safe; when it doesn’t, anxiety or restlessness grows.</p>
+  <h2>🌿 Spaces as Nonverbal Healers</h2>
+  <p>Spaces also function as nonverbal therapists — holding, reflecting, and sometimes healing their inhabitants. A soft, enclosed space can calm someone struggling with overstimulation, while an open, airy layout can help those feeling trapped or confined. Over time, these spatial patterns become emotional conditioning: the brain associates the environment with specific moods. In neuroscience, this is called context-dependent memory — our minds recall emotions linked to physical settings.</p>
+  <h2>☀️ The Healing Power of Harmony</h2>
+  <p>Ultimately, the spaces we live in are not passive backgrounds — they are living extensions of the psyche. A well-designed room doesn’t just look good; it quietly regulates our stress, strengthens focus, and nurtures emotional recovery. The mind builds itself around what it sees daily — so when a space feels balanced, intentional, and gentle, the mind begins to mirror that balance, creating a quiet harmony between the inner and outer worlds.</p>
+  <button id="roomAnalysisBtn" onclick="showPage('roomAnalysisPage')" style="margin-top:20px;">
+  ROOM ANALYSIS
+</button>
+
+</div>
+
+<!-- Room Analysis Page -->
+<div id="roomAnalysisPage" class="page">
+  <div class="analysisWrap">
+    <div class="analysisCard" id="roomAnalysisCard">
+      <h1>Room Analysis</h1>
+      <div class="analysisSub">
+        Detailed room design cards based on your archetype — Ideal Room Design and a Quick Summary.
+      </div>
+      <div id="topResults" class="analysisSection"></div>
+      <div id="wfflContainer" class="analysisGrid"></div>
+      <div id="elementDetailPanel" class="analysisDetailPanel"></div>
+      <div id="tswpContainer" class="analysisProfile"></div>
+
+      <!-- BUTTON TO GO TO PROFILE -->
+      <button id="goToProfileBtn" style="background: linear-gradient(135deg, #ffd700, #ffbf00); color:#111; padding:12px 24px; border:none; border-radius:12px; cursor:pointer; margin-top:20px;">
+        Go to Profile
+      </button>
+
+      <div class="note">
+        If nothing appears, make sure your quiz saved 
+        <code>localStorage.setItem('archetypeTopThree')</code> OR
+        <code>localStorage.setItem('archetypeResult')</code>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- profile Page -->
+<div id="profilePage" class="page">
+
+<h1>Your Profile</h1>
+
+<div class="profileWrapper">
+
+<!-- LEFT POLAROID -->
+<div class="polaroid">
+
+<div class="avatarStage">
+<div id="avatarCanvasContainer"></div>
+</div>
+
+<input type="file" id="uploadAvatar">
+
+<textarea id="profileBio" placeholder="Write your quote or bio..."></textarea>
+
+<button id="saveProfileBtn">Save Profile</button>
+
+</div>
+
+
+<!-- RIGHT CONTROL PANEL -->
+<div style="width:420px">
+
+<!-- Wardrobe Filters -->
+<div class="analysisCard">
+
+<h3>Wardrobe Filters</h3>
+
+<div id="seasonFilters" class="filterRow"></div>
+<div id="genderFilters" class="filterRow"></div>
+
+</div>
+
+
+<!-- FACE -->
+<div class="analysisCard">
+<h3>Face</h3>
+<div id="faceSelectorGrid" class="selectorGrid"></div>
+<input type="color" id="skinPicker">
+</div>
+
+
+<!-- HAIR -->
+<div class="analysisCard">
+<h3>Hair</h3>
+<div id="hairSelectorGrid" class="selectorGrid"></div>
+<input type="color" id="hairColorPicker">
+</div>
+
+
+<!-- CLOTHING -->
+<div class="analysisCard">
+<h3>Clothing</h3>
+<div id="clothingSelectorGrid" class="selectorGrid"></div>
+<input type="color" id="clothColorPicker">
+</div>
+
+</div>
+
+
+<!-- ANALYSIS DISPLAY -->
+<div style="width:420px">
+
+<div class="analysisCard">
+<h2>Archetype</h2>
+<div id="displayArchetypeFull"></div>
+</div>
+
+<div class="analysisCard">
+<h2>Colour Analysis</h2>
+<div id="displaySeasonFull"></div>
+<div id="displayPaletteFull" class="paletteRow"></div>
+</div>
+
+<div class="analysisCard">
+<h2>Room Analysis</h2>
+<div id="displayRoomFull"></div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+    </div>
+  </div>
+</div>
+
+
+<script type="module">
+  /* 1. ALL IMPORTS AT THE TOP */
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+  import { 
+    getAuth, 
+    createUserWithEmailAndPassword, 
+    signInWithEmailAndPassword, 
+    sendPasswordResetEmail, 
+    onAuthStateChanged 
+  } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+  import { 
+    getFirestore, 
+    doc, 
+    setDoc, 
+    serverTimestamp 
+  } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+
+  /* 2. FIREBASE CONFIGURATION */
+  const firebaseConfig = {
+    apiKey: "AIzaSyA6pnGyG_S5WLz5JNW4hDcgAVto6YtdRWo",
+    authDomain: "mawaesu-toknowyou.firebaseapp.com",
+    projectId: "mawaesu-toknowyou"
+  };
+
+  /* 3. INITIALIZATION (Correct Order) */
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  
+  auth.signOut()
+
+  // Expose to window so standard scripts and HTML onclicks can see them
+  window.firebaseAuth = auth;
+  window.firebaseDb = db;
+  window.firebaseFns = { 
+    signInWithEmailAndPassword, 
+    createUserWithEmailAndPassword, 
+    sendPasswordResetEmail, 
+    onAuthStateChanged 
+  };
+
+  /* 4. NAVIGATION SYSTEM */
+  const pageHistory = [];
+  const PAGE_KEY = "currentPage";
+
+  window.showPage = function(pageId, fromBack = false) {
+    const protectedPages = ["openingPage", "quizPage", "resultPage", "introPage", "colorPage", "colorAnalysisPage", "roomIntroPage", "roomAnalysisPage"];
+
+    // Auth Guard
+    if (protectedPages.includes(pageId) && !auth.currentUser) {
+      pageId = "loginPage"; 
+    }
+
+    document.querySelectorAll(".page").forEach(p => p.style.display = "none");
+    const target = document.getElementById(pageId);
+    
+    if (target) {
+      target.style.display = "flex";
+      target.scrollTop = 0;
+      sessionStorage.setItem(PAGE_KEY, pageId);
+      if (!fromBack) pageHistory.push(pageId);
+      updateBackButton();
+    }
+  };
+
+  window.goBack = function() {
+    if (pageHistory.length > 1) {
+      pageHistory.pop();
+      const prev = pageHistory[pageHistory.length - 1];
+      window.showPage(prev, true);
+    }
+  };
+
+  function updateBackButton() {
+    const btn = document.getElementById("backBtn");
+    if (btn) btn.style.display = pageHistory.length <= 1 ? "none" : "block";
+  }
+
+  /* 5. HELPERS */
+  const bind = (id, handler) => {
+    const el = document.getElementById(id);
+    if (el) el.onclick = handler;
+  };
+
+  function isValidPassword(password) {
+    return password.length >= 8 && /[A-Z]/.test(password) && /[a-z]/.test(password) && /\d/.test(password);
+  }
+
+  /* 6. AUTHENTICATION LOGIC */
+
+  // LOGIN
+  bind("loginBtn", async (e) => {
+    if (e) e.preventDefault();
+    const email = document.getElementById("loginEmail")?.value.trim();
+    const password = document.getElementById("loginPassword")?.value;
+
+    if (!email || !password) return alert("Email and password required.");
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      console.log("✅ Logged in");
+      // Navigation is handled by onAuthStateChanged below
+    } catch (err) {
+      console.error(err);
+      alert("Login failed: " + err.message);
+    }
+  });
+
+  // SIGNUP
+  bind("signupBtn", async () => {
+    const name = document.getElementById("signupName")?.value.trim();
+    const email = document.getElementById("signupEmail")?.value.trim();
+    const password = document.getElementById("signupPassword")?.value;
+
+    if (!name || !email || !password) return alert("All fields are required.");
+    if (!isValidPassword(password)) return alert("Password too weak (Needs 8+ chars, Uppercase, Lowercase, Number).");
+
+    try {
+      const cred = await createUserWithEmailAndPassword(auth, email, password);
+      await setDoc(doc(db, "users", cred.user.uid), {
+        name, email, createdAt: serverTimestamp()
+      });
+      alert("Signup successful! Please log in.");
+      window.showPage("loginPage");
+    } catch (err) {
+      alert(err.message);
+    }
+  });
+
+  // PASSWORD RESET
+  bind("resetBtn", async () => {
+    const email = document.getElementById("forgotEmail")?.value.trim();
+    if (!email) return alert("Please enter your email.");
+
+    try {
+      await sendPasswordResetEmail(auth, email);
+      alert("Reset email sent. Check your inbox.");
+      window.showPage("loginPage");
+    } catch (err) {
+      alert(err.message);
+    }
+  });
+
+  /* 7. APP NAVIGATION BINDINGS */
+  bind('startQuizBtn', () => { window.showPage('quizPage'); if(window.showQuestion) showQuestion(); });
+  bind('continueResultBtn', () => window.showPage('introPage'));
+  bind('continueIntroBtn', () => window.showPage('colorPage'));
+  bind('continueColorBtn', () => { window.showPage('colorAnalysisPage'); if(window.showColorAnalysis) showColorAnalysis(); });
+  bind('nextStepBtn', () => window.showPage('roomIntroPage'));
+  bind('roomAnalysisBtn', () => {
+  window.showPage('roomAnalysisPage');   // show the room analysis page
+  if(window.showRoomAnalysis) window.showRoomAnalysis(); // run the analysis
+});
+  bind('goToProfileBtn', () => {
+  window.showPage('profilePage');        // show profile page
+  if(window.loadProfile) loadProfile();  // load user data
+});
+
+
+
+/* 8. THE AUTH LISTENER (Source of Truth) */
+onAuthStateChanged(auth, user => {
+  if (user) {
+    window.showPage("openingPage");
+  } else {
+    window.showPage("loginPage");
+  }
+});
+
+
+window.saveFullProfile = async () => {
+
+const user = window.firebaseAuth.currentUser;
+if(!user) return;
+
+const payload = {
+
+bio: document.getElementById("profileBio").value,
+
+avatar: window.avatarEngine.exportConfig(),
+
+analysis:{
+archetype: localStorage.getItem("userArchetype"),
+season: localStorage.getItem("userSeason"),
+palette: JSON.parse(localStorage.getItem("userPalette")||"[]"),
+room: localStorage.getItem("userRoom")
+}
+
+};
+
+await setDoc(doc(window.firebaseDb,"users",user.uid),payload,{merge:true});
+
+alert("Profile Saved");
+};
+
+
+
+window.loadFullProfile = async () => {
+
+const user = window.firebaseAuth.currentUser;
+if(!user) return;
+
+const snap = await getDoc(doc(window.firebaseDb,"users",user.uid));
+if(!snap.exists()) return;
+
+const data = snap.data();
+
+if(data.bio)
+document.getElementById("profileBio").value = data.bio;
+
+if(data.avatar)
+window.avatarEngine.importConfig(data.avatar);
+
+if(data.analysis){
+renderFullAnalysis(data.analysis);
+}
+
+};
+/* ---------- THE AUTH LISTENER (This handles the first page) ---------- */
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // If user is already logged in, send them to the app
+    window.showPage("openingPage");
+  } else {
+    // If no user is logged in, show the login page
+    window.showPage("loginPage");
+  }
+});
+</script>
+
+<script defer>
+
+// =================== INPUT ELEMENTS ===================
+const signupName = document.getElementById("signupName");
+const signupEmail = document.getElementById("signupEmail");
+const signupPassword = document.getElementById("signupPassword");
+
+const loginEmail = document.getElementById("loginEmail");
+const loginPassword = document.getElementById("loginPassword");
+
+// ------------------ Archetypes (unchanged) ------------------
+const archetypes = [
+{low:0, high:5, name:"🌫️ The Silent Ache", desc:"Core Emotion: Emptiness\nHelpful Emotion: Tenderness\nEmotion Pulling You Back: Despair\nMantra: 'Even a flicker counts.'"},
+{low:6, high:10, name:"🌙 The Wounded Dreamer", desc:"Core Emotion: Longing\nHelpful Emotion: Imagination\nEmotion Pulling You Back: Resignation\nMantra: 'My longing is a compass.'"},
+{low:11, high:15, name:"🫧 The Fragile Survivor", desc:"Core Emotion: Fear\nHelpful Emotion: Awareness\nEmotion Pulling You Back: Hopelessness\nMantra: 'I am allowed to feel safe.'"},
+{low:16, high:20, name:"🌧️ The Quiet Keeper", desc:"Core Emotion: Grief\nHelpful Emotion: Sensitivity\nEmotion Pulling You Back: Isolation\nMantra: 'Grief is love with nowhere to go—so I’ll give it a place.'"},
+{low:21, high:25, name:"🧭 The Searching Soul", desc:"Core Emotion: Confusion\nHelpful Emotion: Curiosity\nEmotion Pulling You Back: Self-doubt\nMantra: 'Test, learn, iterate.'"},
+{low:26, high:30, name:"🌪️ The Restless Heart", desc:"Core Emotion: Restlessness\nHelpful Emotion: Desire\nEmotion Pulling You Back: Shame\nMantra: 'Desire is data.'"},
+{low:31, high:35, name:"🔥 The Hidden Flame", desc:"Core Emotion: Anger\nHelpful Emotion: Determination\nEmotion Pulling You Back: Frustration\nMantra: 'My anger guards what matters.'"},
+{low:36, high:40, name:"🌿 The Gentle Healer", desc:"Core Emotion: Compassion\nHelpful Emotion: Empathy\nEmotion Pulling You Back: Exhaustion\nMantra: 'I am a well, not a pipeline.'"},
+{low:41, high:45, name:"🏔️ The Resilient Wanderer", desc:"Core Emotion: Perseverance\nHelpful Emotion: Hope\nEmotion Pulling You Back: Weariness\nMantra: 'I can pause without quitting.'"},
+{low:46, high:50, name:"🫀 The Shattered Light", desc:"Core Emotion: Vulnerability\nHelpful Emotion: Authenticity\nEmotion Pulling You Back: Fear of rejection\nMantra: 'I don’t have to earn being real.'"},
+{low:51, high:55, name:"🌞 The Quiet Fighter", desc:"Core Emotion: Determination\nHelpful Emotion: Courage\nEmotion Pulling You Back: Doubt\nMantra: 'One brave inch at a time.'"},
+{low:56, high:60, name:"🌤️ The Gentle Dreamer", desc:"Core Emotion: Hope\nHelpful Emotion: Wonder\nEmotion Pulling You Back: Innocence\nMantra: 'Soft heart, strong spine.'"},
+{low:61, high:65, name:"🌈 The Radiant Spirit", desc:"Core Emotion: Joy\nHelpful Emotion: Gratitude\nEmotion Pulling You Back: Avoidance\nMantra: 'Joy is not a betrayal of pain.'"},
+{low:66, high:70, name:"🦁 The Brave Heart", desc:"Core Emotion: Courage\nHelpful Emotion: Strength\nEmotion Pulling You Back: Pride\nMantra: 'Strong enough to be helped.'"},
+{low:71, high:75, name:"🔥 The Inner Flame", desc:"Core Emotion: Passion\nHelpful Emotion: Creativity\nEmotion Pulling You Back: Obsession\nMantra: 'Tend the fire, don’t feed the frenzy.'"},
+{low:76, high:80, name:"🕯️ The Guiding Light", desc:"Core Emotion: Wisdom\nHelpful Emotion: Clarity\nEmotion Pulling You Back: Detachment\nMantra: 'Wisdom lives in a warm body.'"},
+{low:81, high:85, name:"🌠 The Boundless Dreamer", desc:"Core Emotion: Inspiration\nHelpful Emotion: Vision\nEmotion Pulling You Back: Restlessness\nMantra: 'Focus turns light into laser.'"},
+{low:86, high:90, name:"🎙️ The Brave Creator", desc:"Core Emotion: Authenticity\nHelpful Emotion: Expression\nEmotion Pulling You Back: Vulnerability hangover\nMantra: 'I am safe to be seen.'"},
+{low:91, high:95, name:"❤️‍🔥 The Compassionate Flame", desc:"Core Emotion: Love\nHelpful Emotion: Connection\nEmotion Pulling You Back: Over-giving\nMantra: 'My love includes me.'"},
+{low:96, high:100, name:"🌟 The Luminous Soul", desc:"Core Emotion: Wholeness\nHelpful Emotion: Peace\nEmotion Pulling You Back: Fragility\nMantra: 'Nothing missing. Nothing extra.'"}
+];
+
+// ------------------ Questions (full set as requested) ------------------
+const questions = [
+{q:"1. When you feel emotionally overwhelmed, you usually:", options:["Seek someone to support","Withdraw to process alone","Escape into imagination","Create a structured plan"], points:[3,0,1,2]},
+{q:"2. Your ideal room feels:", options:["Warm and welcoming","Quiet and minimal","Creative and expressive","Organized and efficient"], points:[3,0,1,2]},
+{q:"3. When making big decisions, you rely most on:", options:["Impact on people","Inner reflection","Creative possibilities","Logical sequencing"], points:[3,0,1,2]},
+{q:"4. When conflict arises, you naturally:", options:["Try to heal relationships","Take emotional distance","Reframe creatively","Focus on solutions"], points:[3,0,1,2]},
+{q:"5. What recharges your energy fastest?", options:["Helping others","Being alone peacefully","Creating or imagining","Achieving a goal"], points:[3,0,1,2]},
+{q:"6. When entering a new space, you notice first:", options:["People’s comfort levels","Atmosphere and silence","Visual inspiration","Layout efficiency"], points:[3,0,1,2]},
+{q:"7. Stress usually makes you:", options:["Emotionally protective of others","Internally withdrawn","Mentally scattered with ideas","Highly task focused"], points:[3,0,1,2]},
+{q:"8. Your strongest motivation tends to be:", options:["Connection","Peace","Expression","Achievement"], points:[3,0,1,2]},
+{q:"9. When someone confides in you, you:", options:["Offer emotional support","Listen quietly","Help them reinterpret creatively","Suggest practical steps"], points:[3,0,1,2]},
+{q:"10. Your memories tend to center around:", options:["Shared emotional experiences","Moments of stillness","Creative sparks","Personal milestones"], points:[3,0,1,2]},
+
+{q:"11. Your comfort zone is:", options:["Emotionally expressive environments","Calm solitary spaces","Dynamic artistic settings","Structured predictable settings"], points:[3,0,1,2]},
+{q:"12. When routines break, you:", options:["Check on others emotionally","Observe and adapt slowly","Experiment with alternatives","Rebuild structure quickly"], points:[3,0,1,2]},
+{q:"13. When feeling misunderstood, you:", options:["Try to reconnect emotionally","Retreat inward","Express through art or ideas","Clarify logically"], points:[3,0,1,2]},
+{q:"14. Your relationship with time is:", options:["Centered around relationships","Fluid and reflective","Idea-driven and nonlinear","Schedule oriented"], points:[3,0,1,2]},
+{q:"15. When imagining the future, you think about:", options:["Who will be there with you","How peaceful it feels","What you might create","What you might accomplish"], points:[3,0,1,2]},
+
+{q:"16. You feel most authentic when:", options:["Caring for someone","Sitting with your thoughts","Expressing ideas freely","Leading or organizing"], points:[3,0,1,2]},
+{q:"17. When facing uncertainty, you:", options:["Seek reassurance","Accept ambiguity quietly","Explore possibilities","Build contingency plans"], points:[3,0,1,2]},
+{q:"18. Your creativity appears as:", options:["Emotional empathy","Reflective interpretation","Artistic imagination","Innovative problem solving"], points:[3,0,1,2]},
+{q:"19. What makes a place feel like home?", options:["Loved ones present","Silence and familiarity","Personal expression","Functional reliability"], points:[3,0,1,2]},
+{q:"20. When emotionally hurt, you:", options:["Focus on healing bonds","Internalize feelings","Channel into creativity","Analyze the cause"], points:[3,0,1,2]},
+
+{q:"21. You feel safest when:", options:["Relationships are stable","You have personal space","You can dream freely","Plans are predictable"], points:[3,0,1,2]},
+{q:"22. When collaborating, you contribute most by:", options:["Supporting group harmony","Observing deeply","Generating ideas","Organizing tasks"], points:[3,0,1,2]},
+{q:"23. When facing failure, you:", options:["Seek emotional reassurance","Reflect privately","Reimagine possibilities","Strategize improvement"], points:[3,0,1,2]},
+{q:"24. Your attention naturally moves toward:", options:["People’s emotional needs","Subtle environmental cues","Visual or conceptual novelty","Patterns and systems"], points:[3,0,1,2]},
+{q:"25. When learning, you prefer:", options:["Discussion and collaboration","Independent contemplation","Creative experimentation","Structured instruction"], points:[3,0,1,2]},
+
+{q:"26. Your leadership style is:", options:["Emotionally supportive","Quietly observant","Visionary and inspiring","Strategic and directive"], points:[3,0,1,2]},
+{q:"27. When overwhelmed, your instinct is to:", options:["Care for others first","Withdraw and regulate internally","Escape into imagination","Control surroundings"], points:[3,0,1,2]},
+{q:"28. Your biggest internal strength is:", options:["Empathy","Self-awareness","Creative thinking","Discipline"], points:[3,0,1,2]},
+{q:"29. When walking into chaos, you:", options:["Support emotional stability","Watch silently first","Find creative angles","Establish order"], points:[3,0,1,2]},
+{q:"30. You interpret silence as:", options:["Emotional sensitivity","Comfort","Creative incubation","Information processing"], points:[3,0,1,2]},
+
+{q:"31. Your emotional processing is:", options:["Shared outwardly","Deep and internal","Expressive symbolically","Analytical"], points:[3,0,1,2]},
+{q:"32. Your dreams usually focus on:", options:["Relationships","Personal reflection","Creative imagery","Goals and tasks"], points:[3,0,1,2]},
+{q:"33. When you need inspiration, you:", options:["Talk to someone meaningful","Seek solitude","Engage with art or ideas","Review plans or data"], points:[3,0,1,2]},
+{q:"34. When solving emotional challenges, you trust:", options:["Connection","Self-reflection","Creative reinterpretation","Logical analysis"], points:[3,0,1,2]},
+{q:"35. Your decision speed is usually:", options:["Emotionally paced","Slow and reflective","Spontaneously inspired","Calculated and planned"], points:[3,0,1,2]},
+
+{q:"36. Your personal growth happens through:", options:["Relationships","Self-understanding","Creative exploration","Goal achievement"], points:[3,0,1,2]},
+{q:"37. When comfort is threatened, you:", options:["Strengthen relationships","Seek inner quiet","Create new possibilities","Reorganize control"], points:[3,0,1,2]},
+{q:"38. Your strongest memory triggers are:", options:["Emotional connections","Sensory stillness","Visual imagination","Achievements"], points:[3,0,1,2]},
+{q:"39. You feel most alive when:", options:["Connecting deeply","Understanding yourself","Creating something new","Completing challenges"], points:[3,0,1,2]},
+{q:"40. Your stress recovery method is:", options:["Emotional support","Isolation and reflection","Creative engagement","Action planning"], points:[3,0,1,2]},
+
+{q:"41. When observing others, you notice:", options:["Their emotional state","Their energy and presence","Their creative expression","Their efficiency"], points:[3,0,1,2]},
+{q:"42. When your environment feels wrong, you:", options:["Adjust relational energy","Withdraw inwardly","Redesign creatively","Rearrange structurally"], points:[3,0,1,2]},
+{q:"43. You feel most balanced when life is:", options:["Emotionally meaningful","Internally peaceful","Creatively stimulating","Organized and purposeful"], points:[3,0,1,2]},
+{q:"44. Your instinct during uncertainty is to:", options:["Strengthen emotional bonds","Wait and observe","Experiment with ideas","Design a solution"], points:[3,0,1,2]},
+{q:"45. Your deepest drive is:", options:["To nurture connection","To find inner harmony","To create and imagine","To build and accomplish"], points:[3,0,1,2]}
+];
+
+
+// ------------------ Quiz Logic (Multi Archetype % – 100% Guaranteed) ------------------
+
+let currentQuestion = 0;
+let score = 0;
+
+const quizDiv = document.getElementById('quiz');
+const progressBar = document.getElementById('progressBar');
+
+function showQuestion() {
+
+  if (!quizDiv) return;
+  quizDiv.innerHTML = "";
+
+  if (currentQuestion >= questions.length) {
+    showResult();
+    return;
+  }
+
+  const qObj = questions[currentQuestion];
+  const questionElem = document.createElement('div');
+  questionElem.className = 'question';
+
+  const title = document.createElement('h3');
+  title.textContent = qObj.q;
+  questionElem.appendChild(title);
+
+  qObj.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.innerText = opt;
+
+    btn.onclick = () => {
+      score += qObj.points[i];
+      currentQuestion++;
+      updateProgress();
+      showQuestion();
+    };
+
+    questionElem.appendChild(btn);
+  });
+
+  quizDiv.appendChild(questionElem);
+}
+
+function updateProgress() {
+  if (!progressBar) return;
+  progressBar.style.width = `${(currentQuestion / questions.length) * 100}%`;
+}
+
+function showResult() {
+
+  // ---------- NORMALIZE SCORE ----------
+  const maxPossibleScore = questions.length * 3;
+  const normalizedScore = (score / maxPossibleScore) * 100;
+
+  // ---------- DISTANCE FROM ARCHETYPE MIDPOINT ----------
+  const distances = archetypes.map(a => {
+    const midpoint = (a.low + a.high) / 2;
+    const distance = Math.abs(normalizedScore - midpoint);
+    return { ...a, distance };
+  });
+
+  // ---------- SIMILARITY ----------
+  const similarities = distances.map(a => ({
+    ...a,
+    similarity: 100 - a.distance
+  }));
+
+  const totalSimilarity = similarities.reduce((s, a) => s + a.similarity, 0);
+
+  // ---------- RAW (UNROUNDED) PERCENTAGES ----------
+  const rawPercentages = similarities.map(a => ({
+    name: a.name,
+    desc: a.desc,
+    raw: (a.similarity / totalSimilarity) * 100
+  }));
+
+  // ---------- SORT & TAKE TOP 3 ----------
+  rawPercentages.sort((a, b) => b.raw - a.raw);
+  const topThree = rawPercentages.slice(0, 3);
+
+  // ---------- ROUND SAFELY ----------
+  let rounded = topThree.map(a => ({
+    ...a,
+    percentage: Math.floor(a.raw)
+  }));
+
+  // ---------- FIX ROUNDING GAP ----------
+  const used = rounded.reduce((s, a) => s + a.percentage, 0);
+  const gap = 100 - used;
+  rounded[0].percentage += gap;
+
+  // ---------- STORE ----------
+  localStorage.setItem("archetypeTopThree", JSON.stringify(rounded));
+  localStorage.setItem("archetypeScore", String(Math.round(normalizedScore)));
+
+  // ---------- DISPLAY ----------
+  const nameEl = document.getElementById('archetypeName');
+  const descEl = document.getElementById('archetypeDesc');
+
+  if (nameEl && descEl) {
+
+    nameEl.innerText = `${rounded[0].name} (${rounded[0].percentage}%)`;
+
+    let descriptionOutput = "";
+
+    rounded.forEach((arch, index) => {
+
+      let label = "";
+
+      if (index === 0) label = "Primary Archetype";
+      else if (index === 1) label = "Secondary Influence";
+      else label = "Tertiary Influence";
+
+      descriptionOutput +=
+`${label}
+${arch.name} (${arch.percentage}%)
+
+${arch.desc}
+
+----------------------------------
+
+`;
+
+    });
+
+    descEl.innerText = descriptionOutput.trim();
+  }
+
+  // ---------- NAVIGATION ----------
+  if (typeof showPage === "function") {
+    showPage('resultPage');
+  }
+}
+
+// ------------ COLOUR ANALYSIS LOGIC ---------------//
+function showColorAnalysis() {
+
+  const storedTop = localStorage.getItem('archetypeTopThree');
+  if (!storedTop) return;
+
+  const topThree = JSON.parse(storedTop);
+  const area = document.getElementById('contentArea');
+
+  // ---------------- MASTER ARCHETYPE DATABASE ----------------
+  const ARCHETYPE_COLOURS = {
+
+"🌫️ The Silent Ache": {core:["#B2BEB5","#C4Aead","#E5E5E5","#A9B3BC","#C7D3C4"],help:["#FFF5E1","#F6D1D1","#FFD9B3","#A3C4F3","#D3F0E1"]},
+
+"🌙 The Wounded Dreamer": {core:["#7B5E87","#C68FA7","#2E3A59","#708090","#BFA0C9"],help:["#D6C3E0","#A3C4F3","#FFF9C4","#BFF0D4","#FFBFA3"]},
+
+"🫧 The Fragile Survivor": {core:["#8C9BA5","#2E5266","#B1A7A6","#5A6A7B","#4B4B4B"],help:["#E6D7B9","#CDE7F0","#FFD6C2","#A8C1A3","#F7D594"]},
+
+"🌧️ The Quiet Keeper": {core:["#4F5B66","#6B7B8C","#A9A49B","#5C5C5C","#B4A7B1"],help:["#FFE4B2","#F7D1D1","#BDE0EB","#D6C3E0","#D8E3D0"]},
+
+"🧭 The Searching Soul": {core:["#BCC0C0","#609EA2","#D3C5A9","#4E6E8E","#A3988A"],help:["#A7E6AF","#A3C4F3","#FFF9B3","#FFAB91","#E6D0F0"]},
+
+"🌪️ The Restless Heart": {core:["#D98E50","#C75D5D","#607D8B","#5C5C5C","#B1A7A6"],help:["#FF7F50","#FFE066","#A3E4C6","#A3C4F3","#F7D594"]},
+
+"🔥 The Hidden Flame": {core:["#D33F49","#800020","#4B4B4B","#D98352","#8B3A3A"],help:["#FFC069","#3EC1CD","#F7D594","#8ABF8C","#A3C4F3"]},
+
+"🌿 The Gentle Healer": {core:["#A3BFA8","#7FB7B7","#B2D4E1","#F5F1E3","#D8A7A7"],help:["#FFDAB3","#FFF9B3","#E6D0F0","#A3C4F3","#B7D3B3"]},
+
+"🏔️ The Resilient Wanderer": {core:["#7A7A7A","#356B6B","#8C5E4F","#BFC1C2","#2E3A59"],help:["#FFD966","#B3E0C3","#A3C4F3","#FFB6A3","#D6C3E0"]},
+
+"🫀 The Shattered Light": {core:["#F3C6C6","#C5C5C5","#D7C7E1","#EDE0D4","#BFDCE7"],help:["#FFBFA3","#FFE066","#BDE0D4","#A3C4F3","#FFDAB3"]},
+
+"🌞 The Quiet Fighter": {core:["#B65A4C","#4B4B4B","#2E3A59","#A89F91","#708238"],help:["#FFD966","#A3C4F3","#FF7F50","#FFDAB3","#F7D594"]},
+
+"🌤️ The Gentle Dreamer": {core:["#A3C4F3","#D6C3E0","#FFDAB3","#B3E0C3","#F5F1E3"],help:["#FFF066","#FFB6A3","#BDE0D4","#EADCF7","#F7D1D1"]},
+
+"🌈 The Radiant Spirit": {core:["#FFE066","#FF7F50","#A3C4F3","#E6D0F0","#FFF5E1"],help:["#FFD966","#B3E0C3","#FFDAB3","#F7D1D1","#BDE0D4"]},
+
+"🦁 The Brave Heart": {core:["#E1A93C","#C75D5D","#4B4B4B","#B89F91","#356B6B"],help:["#A3C4F3","#FF7F50","#BDE0D4","#F7D594","#FFE066"]},
+
+"🔥 The Inner Flame": {core:["#D33F49","#9B2C60","#D98352","#4B4B4B","#6F2B6F"],help:["#FF7F50","#FFF066","#B3E0C3","#E6D0F0","#FFDAB3"]},
+
+"🕯️ The Guiding Light": {core:["#356B6B","#A3BFA8","#7B8C99","#4B4B4B","#F5F1E3"],help:["#A3C4F3","#FFD966","#FFDAB3","#E6D0F0","#B3E0C3"]},
+
+"🌠 The Boundless Dreamer": {core:["#4A90E2","#9B59B6","#7FD8D8","#FFF5B3","#C5C5C5"],help:["#FF7F50","#B3E0C3","#A3C4F3","#FFD966","#E6D0F0"]},
+
+"🎙️ The Brave Creator": {core:["#FF7F50","#D33F49","#356B6B","#4B4B4B","#FFDAB3"],help:["#A3C4F3","#B3E0C3","#FFE066","#E6D0F0","#FFF5E1"]},
+
+"❤️‍🔥 The Compassionate Flame": {core:["#E74C3C","#FF7F50","#F7D1D1","#FFDAB3","#BDE0D4"],help:["#A3C4F3","#FFE066","#E6D0F0","#B3E0C3","#F7D594"]},
+
+"🌟 The Luminous Soul": {core:["#FFE4B2","#FFF5E1","#CDE7F0","#E6D0F0","#B3E0C3"],help:["#FFB6A3","#FFD966","#A3C4F3","#FFDAB3","#F7D1D1"]}
+
+  };
+
+  function hexToRgb(hex){
+    const h = hex.replace("#","");
+    return {r:parseInt(h.substring(0,2),16),g:parseInt(h.substring(2,4),16),b:parseInt(h.substring(4,6),16)};
+  }
+
+  function rgbToHex(r,g,b){
+    return "#" + [r,g,b].map(x=>{
+      const h=x.toString(16);
+      return h.length===1 ? "0"+h : h;
+    }).join("");
+  }
+
+  function contrast(hex){
+    const rgb=hexToRgb(hex);
+    const yiq=(rgb.r*299+rgb.g*587+rgb.b*114)/1000;
+    return yiq>=128?"#000":"#fff";
+  }
+
+  function swatch(name,hex,note){
+    return `<div class="swatch" style="background:${hex};color:${contrast(hex)}">
+    <div>${name}</div>
+    <div class="hex">${hex}</div>
+    <div style="font-weight:600;font-size:13px;margin-top:8px">${note}</div></div>`;
+  }
+
+  function blendColour(){
+    let r=0,g=0,b=0,total=0;
+
+    topThree.forEach(a=>{
+      const data=ARCHETYPE_COLOURS[a.name];
+      if(!data) return;
+
+      data.core.forEach(c=>{
+        const rgb=hexToRgb(c);
+        r+=rgb.r*a.percentage;
+        g+=rgb.g*a.percentage;
+        b+=rgb.b*a.percentage;
+        total+=a.percentage;
+      });
+    });
+
+    return rgbToHex(
+      Math.round(r/(total*5)),
+      Math.round(g/(total*5)),
+      Math.round(b/(total*5))
+    );
+  }
+
+  let blocks="";
+
+  topThree.forEach(a=>{
+    const data=ARCHETYPE_COLOURS[a.name];
+    if(!data) return;
+
+    const core=data.core.map((c,i)=>swatch("Core "+(i+1),c,"Primary")).join("");
+    const help=data.help.map((c,i)=>swatch("Help "+(i+1),c,"Balancing")).join("");
+
+    blocks+=`
+      <div style="margin-bottom:40px;">
+        <div class="archetypeTitle">${a.name} (${a.percentage}%)</div>
+        <div class="sectionTitle">Core Colours</div>
+        <div class="cols">${core}</div>
+        <div class="sectionTitle">Helping Colours</div>
+        <div class="cols">${help}</div>
+      </div>
+    `;
+  });
+
+  const blended = blendColour();
+
+  const blendedBlock = `
+    <div style="margin-bottom:50px;">
+      <div class="archetypeTitle">🎨 Blended Identity Palette</div>
+      <div class="cols">${swatch("Composite Tone", blended, "Weighted emotional palette")}</div>
+    </div>
+  `;
+
+  area.innerHTML = blendedBlock + blocks;
+}
+
+// ------------------ Room Analysis Logic (mirrors Colour Analysis if-else style) ------------------
+
+/* ======================================================
+ROOM ARCHETYPE COMPLETE STANDALONE ENGINE
+✔ Independent
+✔ Anti-Clash
+✔ Smooth Interactions
+✔ Top 3 Archetype Logic
+✔ Full Visual WFFL + TSWP Rendering
+✔ Auto UI Builder
+✔ ONLY REPLACE ARCHETYPE DATA BELOW
+====================================================== */
+
+
+/* ======================================================
+🧠 PLACEHOLDER — INSERT YOUR FULL ARCHETYPE OBJECT HERE
+====================================================== */
+  const ARCHETYPE_FULL_DESIGN = {
+
+/* =====================================================
+1. 🌫️ THE SILENT ACHE
+===================================================== */
+"🌫️ The Silent Ache":{
+
+WFFL:{
+Walls:{
+actual:"Matte fog greys + limewash texture",
+designIntent:"Reduce sensory overload and emotional numbing transition",
+neurologicalResponse:"Reduces hypervigilance and visual overstimulation",
+brainRegions:"Amygdala calming, Insula sensory moderation",
+hormonalResponse:"↓ Cortisol, ↑ Serotonin stability",
+behaviouralOutcome:"Allows safe emotional reconnection"
+},
+Flooring:{
+actual:"Pale washed natural wood",
+designIntent:"Provide grounding stability",
+neurologicalResponse:"Improves spatial orientation and safety perception",
+brainRegions:"Parietal lobe grounding processing",
+hormonalResponse:"Parasympathetic activation",
+behaviouralOutcome:"Encourages calm slow mobility"
+},
+Furniture:{
+actual:"Floating minimal furniture",
+designIntent:"Prevent emotional suffocation",
+neurologicalResponse:"Reduces environmental crowding stress",
+brainRegions:"Hippocampus environmental safety encoding",
+hormonalResponse:"↓ Adrenaline baseline",
+behaviouralOutcome:"Encourages gentle emotional re-entry"
+},
+Lighting:{
+actual:"Diffused daylight with sheer curtains",
+designIntent:"Stabilise circadian rhythm gently",
+neurologicalResponse:"Regulates light exposure sensitivity",
+brainRegions:"Suprachiasmatic nucleus",
+hormonalResponse:"Balanced melatonin secretion",
+behaviouralOutcome:"Supports emotional recovery cycles"
+}
+},
+
+TSWP:{
+stimulationTolerance:"Extremely low sensory tolerance",
+spatialSituation:"High negative space requirement",
+windowStrategy:"Indirect filtered daylight",
+personalisation:"Minimal emotionally safe objects only"
+}
+
+},
+
+/* =====================================================
+2. 🌙 THE WOUNDED DREAMER
+===================================================== */
+"🌙 The Wounded Dreamer":{
+
+WFFL:{
+Walls:{
+actual:"Muted plum, dusk violet, gradient twilight textures",
+designIntent:"Encourage imaginative emotional processing",
+neurologicalResponse:"Stimulates introspective visual cognition",
+brainRegions:"Default Mode Network activation",
+hormonalResponse:"↑ Dopamine imaginative stimulation",
+behaviouralOutcome:"Encourages reflective daydreaming"
+},
+Flooring:{
+actual:"Velvet-finish laminate or soft layered rugs",
+designIntent:"Provide emotional cushioning",
+neurologicalResponse:"Enhances tactile emotional security",
+brainRegions:"Somatosensory cortex soothing response",
+hormonalResponse:"↑ Oxytocin comfort response",
+behaviouralOutcome:"Promotes internal emotional exploration"
+},
+Furniture:{
+actual:"Curved lounge seating, cocoon chairs",
+designIntent:"Encourage safe fantasy immersion",
+neurologicalResponse:"Reduces defensive posture tension",
+brainRegions:"Anterior cingulate emotional integration",
+hormonalResponse:"↓ Stress hormone reactivity",
+behaviouralOutcome:"Allows vulnerable creative thinking"
+},
+Lighting:{
+actual:"Star projector or dim warm pendant lighting",
+designIntent:"Create immersive symbolic atmosphere",
+neurologicalResponse:"Activates associative imagination networks",
+brainRegions:"Temporal lobe memory + imagery",
+hormonalResponse:"Mild dopamine + serotonin elevation",
+behaviouralOutcome:"Supports narrative emotional healing"
+}
+},
+
+TSWP:{
+stimulationTolerance:"Low but emotionally expressive",
+spatialSituation:"Semi enclosed imaginative niches",
+windowStrategy:"Filtered twilight lighting",
+personalisation:"Storytelling artefacts encouraged"
+}
+
+},
+
+/* =====================================================
+3. 🫧 THE FRAGILE SURVIVOR
+===================================================== */
+"🫧 The Fragile Survivor":{
+
+WFFL:{
+Walls:{
+actual:"Soft mist blue + warm neutral gradients",
+designIntent:"Create protective emotional shell",
+neurologicalResponse:"Reduces trauma recall triggers",
+brainRegions:"Amygdala threat memory dampening",
+hormonalResponse:"↓ Cortisol spikes",
+behaviouralOutcome:"Enhances psychological safety"
+},
+Flooring:{
+actual:"Textured cork or padded flooring",
+designIntent:"Enhance grounding tactile reassurance",
+neurologicalResponse:"Improves proprioceptive security",
+brainRegions:"Somatosensory grounding network",
+hormonalResponse:"Parasympathetic activation",
+behaviouralOutcome:"Encourages stable movement"
+},
+Furniture:{
+actual:"Soft rounded furniture edges",
+designIntent:"Prevent perceived threat from sharp forms",
+neurologicalResponse:"Reduces defensive visual processing",
+brainRegions:"Visual cortex threat detection moderation",
+hormonalResponse:"↓ Adrenaline reflex activation",
+behaviouralOutcome:"Promotes relaxation and trust"
+},
+Lighting:{
+actual:"Warm layered low lux lighting",
+designIntent:"Avoid sensory shock responses",
+neurologicalResponse:"Prevents sudden photic stress activation",
+brainRegions:"Thalamus sensory filtering stability",
+hormonalResponse:"Balanced melatonin + serotonin",
+behaviouralOutcome:"Supports calm emotional stabilisation"
+}
+},
+
+TSWP:{
+stimulationTolerance:"Very low trauma sensitivity",
+spatialSituation:"Protective semi-enclosure",
+windowStrategy:"Soft filtered daylight",
+personalisation:"Safety symbols + protective memory anchors"
+}
+
+},
+
+/* =====================================================
+4. 🌧️ THE QUIET KEEPER
+===================================================== */
+"🌧️ The Quiet Keeper":{
+
+WFFL:{
+Walls:{
+actual:"Rainstone greys with vertical brush textures",
+designIntent:"Facilitate grief processing",
+neurologicalResponse:"Supports emotional containment without suppression",
+brainRegions:"Insula emotional awareness processing",
+hormonalResponse:"Regulated cortisol release",
+behaviouralOutcome:"Encourages safe grief expression"
+},
+Flooring:{
+actual:"Weathered oak or stone matte tiles",
+designIntent:"Symbolise emotional endurance",
+neurologicalResponse:"Reinforces grounding permanence",
+brainRegions:"Hippocampus stability mapping",
+hormonalResponse:"↑ Serotonin grounding effect",
+behaviouralOutcome:"Promotes emotional endurance"
+},
+Furniture:{
+actual:"Deep contemplative seating + journaling desk",
+designIntent:"Encourage reflective emotional release",
+neurologicalResponse:"Stimulates narrative processing circuits",
+brainRegions:"Prefrontal cortex reflective regulation",
+hormonalResponse:"Balanced dopamine + serotonin",
+behaviouralOutcome:"Supports grief narration and meaning making"
+},
+Lighting:{
+actual:"Rain diffuse skylight simulation",
+designIntent:"Provide symbolic emotional catharsis",
+neurologicalResponse:"Supports parasympathetic emotional discharge",
+brainRegions:"Limbic regulation circuits",
+hormonalResponse:"Emotional tear-release oxytocin activation",
+behaviouralOutcome:"Encourages emotional release safely"
+}
+},
+
+TSWP:{
+stimulationTolerance:"Low but emotionally deep",
+spatialSituation:"Private reflection zones",
+windowStrategy:"Rain-diffused natural lighting",
+personalisation:"Memory tribute objects encouraged"
+}
+
+},
+
+/* =====================================================
+5. 🧭 THE SEARCHING SOUL
+===================================================== */
+"🧭 The Searching Soul":{
+
+WFFL:{
+Walls:{
+actual:"Cartographic textures + neutral explorer tones",
+designIntent:"Stimulate cognitive curiosity",
+neurologicalResponse:"Activates exploratory novelty circuits",
+brainRegions:"Hippocampus spatial exploration",
+hormonalResponse:"↑ Dopamine curiosity reward loop",
+behaviouralOutcome:"Encourages experimentation"
+},
+Flooring:{
+actual:"Mixed material transitions between zones",
+designIntent:"Reinforce journey metaphor through space",
+neurologicalResponse:"Stimulates navigation brain mapping",
+brainRegions:"Parietal navigation cortex",
+hormonalResponse:"↑ Dopamine + mild adrenaline",
+behaviouralOutcome:"Promotes movement exploration"
+},
+Furniture:{
+actual:"Modular adaptable furniture",
+designIntent:"Encourage flexibility and discovery",
+neurologicalResponse:"Enhances executive decision engagement",
+brainRegions:"Prefrontal cortex adaptability processing",
+hormonalResponse:"Balanced dopamine motivation",
+behaviouralOutcome:"Supports active curiosity behaviours"
+},
+Lighting:{
+actual:"Directional adjustable lighting",
+designIntent:"Highlight shifting focal exploration points",
+neurologicalResponse:"Stimulates attentional spotlight networks",
+brainRegions:"Frontal attention control system",
+hormonalResponse:"↑ Dopamine engagement stimulation",
+behaviouralOutcome:"Encourages intellectual searching"
+}
+},
+
+TSWP:{
+stimulationTolerance:"Moderate novelty seeking",
+spatialSituation:"Multi zone exploration layouts",
+windowStrategy:"Wide panoramic discovery windows",
+personalisation:"Travel or knowledge artefacts encouraged"
+}
+
+},
+
+/* =====================================================
+6. 🌪️ THE RESTLESS HEART
+===================================================== */
+"🌪️ The Restless Heart":{
+
+WFFL:{
+Walls:{
+actual:"Dynamic gradient warm neutrals with energy streak accents",
+designIntent:"Channel chaotic emotional energy safely",
+neurologicalResponse:"Provides visual energy release outlet",
+brainRegions:"Anterior cingulate emotional impulse regulation",
+hormonalResponse:"Controlled adrenaline expression",
+behaviouralOutcome:"Reduces impulsive emotional overflow"
+},
+Flooring:{
+actual:"Patterned movement-suggestive rugs",
+designIntent:"Encourage physical emotional release",
+neurologicalResponse:"Enhances kinetic grounding circuits",
+brainRegions:"Motor cortex + cerebellum coordination",
+hormonalResponse:"Endorphin release stimulation",
+behaviouralOutcome:"Supports healthy emotional discharge"
+},
+Furniture:{
+actual:"Swivel seating + mobile ottomans",
+designIntent:"Allow movement flexibility",
+neurologicalResponse:"Reduces psychological confinement response",
+brainRegions:"Vestibular sensory balance",
+hormonalResponse:"↓ Cortisol through movement freedom",
+behaviouralOutcome:"Encourages healthy restlessness channeling"
+},
+Lighting:{
+actual:"Adjustable intensity lighting gradients",
+designIntent:"Match fluctuating emotional intensity",
+neurologicalResponse:"Regulates arousal level balance",
+brainRegions:"Hypothalamic arousal regulation",
+hormonalResponse:"Dynamic adrenaline + dopamine balance",
+behaviouralOutcome:"Supports emotional energy regulation"
+}
+},
+
+TSWP:{
+stimulationTolerance:"Moderate high dynamic stimulation",
+spatialSituation:"Open flexible movement layout",
+windowStrategy:"Wide airflow and external movement visibility",
+personalisation:"Creative expressive outlets encouraged"
+}
+
+},
+
+/* =====================================================
+7. 🔥 THE HIDDEN FLAME
+===================================================== */
+"🔥 The Hidden Flame":{
+
+WFFL:{
+Walls:{
+actual:"Deep ember red accent walls with charcoal base",
+designIntent:"Safely externalise suppressed anger",
+neurologicalResponse:"Channels aggression through symbolic colour processing",
+brainRegions:"Amygdala controlled emotional discharge",
+hormonalResponse:"Regulated adrenaline output",
+behaviouralOutcome:"Encourages controlled assertive expression"
+},
+Flooring:{
+actual:"Dark hardwood or basalt stone flooring",
+designIntent:"Provide emotional grounding stability",
+neurologicalResponse:"Enhances safety perception under strong emotional arousal",
+brainRegions:"Parietal grounding circuits",
+hormonalResponse:"Parasympathetic counterbalance activation",
+behaviouralOutcome:"Reduces explosive emotional reactions"
+},
+Furniture:{
+actual:"Strong structured furniture silhouettes",
+designIntent:"Reinforce strength identity safely",
+neurologicalResponse:"Activates dominance safety perception circuits",
+brainRegions:"Orbitofrontal control regulation",
+hormonalResponse:"Testosterone confidence stabilisation",
+behaviouralOutcome:"Encourages assertive but controlled behaviour"
+},
+Lighting:{
+actual:"Warm focused spotlight lighting",
+designIntent:"Symbolise inner power spotlight",
+neurologicalResponse:"Enhances focus driven neural engagement",
+brainRegions:"Prefrontal decision control",
+hormonalResponse:"↑ Dopamine confidence reward",
+behaviouralOutcome:"Supports purposeful determination"
+}
+},
+
+TSWP:{
+stimulationTolerance:"Moderate intense emotional energy",
+spatialSituation:"Defined strength anchor zones",
+windowStrategy:"Controlled directional daylight",
+personalisation:"Symbolic strength artefacts encouraged"
+}
+
+},
+
+/* =====================================================
+8–20
+(Continuing same scientific depth)
+===================================================== */
+"🌿 The Gentle Healer":{ WFFL:{ Walls:{actual:"Soft sage greens + botanical textures",designIntent:"Promote nurturing calm",neurologicalResponse:"Triggers relaxation via nature mimicry",brainRegions:"Parasympathetic vagal pathways",hormonalResponse:"↑ Oxytocin empathy bonding",behaviouralOutcome:"Encourages caregiving and restoration"},Flooring:{actual:"Natural bamboo or cork flooring",designIntent:"Enhance earth grounding",neurologicalResponse:"Stabilises sensory processing",brainRegions:"Somatosensory cortex",hormonalResponse:"↓ Cortisol, ↑ Serotonin",behaviouralOutcome:"Supports calm supportive behaviours"},Furniture:{actual:"Soft organic curved furniture",designIntent:"Encourage safe nurturing interaction",neurologicalResponse:"Reduces defensive body posture",brainRegions:"Anterior cingulate emotional empathy",hormonalResponse:"↑ Oxytocin",behaviouralOutcome:"Promotes caregiving presence"},Lighting:{actual:"Filtered natural daylight through plants",designIntent:"Biophilic restoration stimulation",neurologicalResponse:"Enhances attention recovery",brainRegions:"Prefrontal fatigue recovery",hormonalResponse:"Balanced serotonin",behaviouralOutcome:"Encourages emotional restoration"} },TSWP:{stimulationTolerance:"Low soothing sensory environment",spatialSituation:"Comfort support zones",windowStrategy:"Greenery filtered daylight",personalisation:"Healing ritual artefacts encouraged"}},
+
+"🏔️ The Resilient Wanderer":{ WFFL:{ Walls:{actual:"Stone grey mountain textures",designIntent:"Symbolise endurance",neurologicalResponse:"Enhances resilience identity",brainRegions:"Prefrontal perseverance circuits",hormonalResponse:"↑ Dopamine perseverance reward",behaviouralOutcome:"Encourages endurance mindset"},Flooring:{actual:"Rugged natural stone flooring",designIntent:"Strengthens grounded resilience perception",neurologicalResponse:"Enhances tactile durability perception",brainRegions:"Somatosensory resilience mapping",hormonalResponse:"Balanced cortisol stress tolerance",behaviouralOutcome:"Supports long term persistence"},Furniture:{actual:"Functional expedition style furniture",designIntent:"Reinforce survival competence",neurologicalResponse:"Enhances executive control circuits",brainRegions:"Dorsolateral prefrontal cortex",hormonalResponse:"↑ Testosterone competence stabilisation",behaviouralOutcome:"Encourages strategic resilience"},Lighting:{actual:"Bright natural horizon lighting",designIntent:"Symbolise forward movement",neurologicalResponse:"Stimulates motivational networks",brainRegions:"Mesolimbic dopamine pathway",hormonalResponse:"↑ Dopamine future focus",behaviouralOutcome:"Encourages perseverance"} },TSWP:{stimulationTolerance:"Moderate rugged sensory profile",spatialSituation:"Clear progression spatial zoning",windowStrategy:"Wide horizon viewing windows",personalisation:"Journey milestone artefacts"}},
+
+"🫀 The Shattered Light":{ WFFL:{ Walls:{actual:"Blush fractured light reflective paint",designIntent:"Normalise emotional vulnerability",neurologicalResponse:"Encourages emotional acceptance processing",brainRegions:"Insula vulnerability awareness",hormonalResponse:"↑ Oxytocin emotional bonding",behaviouralOutcome:"Encourages openness"},Flooring:{actual:"Soft layered wool rugs",designIntent:"Provide comfort safety",neurologicalResponse:"Enhances tactile soothing feedback",brainRegions:"Somatosensory comfort circuits",hormonalResponse:"↓ Cortisol spikes",behaviouralOutcome:"Supports emotional expression"},Furniture:{actual:"Soft embracing lounge seating",designIntent:"Encourage emotional release posture",neurologicalResponse:"Reduces defensive muscle tension",brainRegions:"Anterior cingulate emotional regulation",hormonalResponse:"↑ Oxytocin",behaviouralOutcome:"Promotes vulnerability"},Lighting:{actual:"Soft prismatic ambient lighting",designIntent:"Symbolise fragmented healing becoming whole",neurologicalResponse:"Stimulates associative emotional networks",brainRegions:"Temporal emotional memory integration",hormonalResponse:"Serotonin emotional balance",behaviouralOutcome:"Encourages emotional integration"} },TSWP:{stimulationTolerance:"Low emotional sensitivity",spatialSituation:"Safe cocoon zones",windowStrategy:"Soft pastel daylight diffusion",personalisation:"Healing narrative artefacts"}},
+
+"🌞 The Quiet Fighter":{ WFFL:{ Walls:{actual:"Muted sunrise amber gradients",designIntent:"Symbolise silent strength",neurologicalResponse:"Enhances resilience motivation circuits",brainRegions:"Prefrontal endurance regulation",hormonalResponse:"Balanced cortisol + dopamine",behaviouralOutcome:"Encourages persistent effort"},Flooring:{actual:"Stable warm oak flooring",designIntent:"Ground determination stability",neurologicalResponse:"Enhances motor steadiness perception",brainRegions:"Motor planning cortex",hormonalResponse:"↑ Endorphin movement reinforcement",behaviouralOutcome:"Supports sustained action"},Furniture:{actual:"Functional structured desk and training zones",designIntent:"Encourage disciplined productivity",neurologicalResponse:"Executive function reinforcement",brainRegions:"Dorsolateral prefrontal cortex",hormonalResponse:"↑ Dopamine task reward",behaviouralOutcome:"Supports goal completion"},Lighting:{actual:"Focused task directional lighting",designIntent:"Improve performance clarity",neurologicalResponse:"Enhances attentional spotlighting",brainRegions:"Frontal attention network",hormonalResponse:"↑ Dopamine focus regulation",behaviouralOutcome:"Encourages perseverance"} },TSWP:{stimulationTolerance:"Moderate productivity stimulation",spatialSituation:"Task zoned structure",windowStrategy:"Morning oriented daylight",personalisation:"Achievement progress displays"}},
+
+"🌤️ The Gentle Dreamer":{ WFFL:{ Walls:{actual:"Soft pastel sky gradients",designIntent:"Encourage hopeful imagination",neurologicalResponse:"Stimulates positive future imagery",brainRegions:"Default mode future simulation",hormonalResponse:"↑ Dopamine optimism",behaviouralOutcome:"Encourages hopeful thinking"},Flooring:{actual:"Light cloud tone carpets",designIntent:"Enhance emotional softness",neurologicalResponse:"Enhances tactile comfort perception",brainRegions:"Somatosensory cortex calming",hormonalResponse:"↑ Oxytocin comfort bonding",behaviouralOutcome:"Promotes emotional safety"},Furniture:{actual:"Floating dreamy canopy beds and lounge pods",designIntent:"Encourage imaginative comfort",neurologicalResponse:"Reduces defensive vigilance",brainRegions:"Limbic relaxation pathways",hormonalResponse:"↓ Cortisol baseline",behaviouralOutcome:"Supports creative dreaming"},Lighting:{actual:"Warm sunrise tone ambient lighting",designIntent:"Reinforce hopeful emotional warmth",neurologicalResponse:"Stimulates serotonin regulation",brainRegions:"Hypothalamic emotional warmth processing",hormonalResponse:"↑ Serotonin stability",behaviouralOutcome:"Encourages gentle optimism"} },TSWP:{stimulationTolerance:"Low soft sensory stimulation",spatialSituation:"Floating airy layout",windowStrategy:"Sunrise exposure windows",personalisation:"Fantasy and dream artefacts"}},
+
+"🌈 The Radiant Spirit":{ WFFL:{ Walls:{actual:"Multi tonal joyful colour gradients",designIntent:"Encourage joyful expression",neurologicalResponse:"Stimulates reward joy circuits",brainRegions:"Mesolimbic dopamine system",hormonalResponse:"↑ Dopamine + Endorphins",behaviouralOutcome:"Encourages expressive behaviour"},Flooring:{actual:"Playful patterned wood or tile",designIntent:"Enhance playful sensory engagement",neurologicalResponse:"Stimulates sensory curiosity",brainRegions:"Parietal sensory integration",hormonalResponse:"↑ Dopamine curiosity",behaviouralOutcome:"Supports energetic movement"},Furniture:{actual:"Playful multi function modular seating",designIntent:"Encourage social interaction",neurologicalResponse:"Enhances social bonding circuits",brainRegions:"Mirror neuron system",hormonalResponse:"↑ Oxytocin social bonding",behaviouralOutcome:"Encourages social joy"},Lighting:{actual:"Bright layered colour accent lighting",designIntent:"Enhance emotional energy stimulation",neurologicalResponse:"Stimulates alert positive arousal",brainRegions:"Reticular activation system",hormonalResponse:"↑ Dopamine + serotonin",behaviouralOutcome:"Promotes energetic positivity"} },TSWP:{stimulationTolerance:"Moderate high joyful sensory environment",spatialSituation:"Open expressive layout",windowStrategy:"Wide daylight exposure",personalisation:"Celebration artefacts encouraged"}},
+
+"🦁 The Brave Heart":{ WFFL:{ Walls:{actual:"Golden amber and heroic accent walls",designIntent:"Reinforce courage identity",neurologicalResponse:"Stimulates confidence neural networks",brainRegions:"Orbitofrontal self worth processing",hormonalResponse:"↑ Testosterone confidence stabilisation",behaviouralOutcome:"Encourages bravery"},Flooring:{actual:"Strong hardwood flooring",designIntent:"Ground courageous presence",neurologicalResponse:"Enhances posture and stance stability",brainRegions:"Motor confidence circuits",hormonalResponse:"Balanced adrenaline readiness",behaviouralOutcome:"Encourages action readiness"},Furniture:{actual:"Statement leadership seating",designIntent:"Reinforce leadership identity",neurologicalResponse:"Enhances authority self perception",brainRegions:"Prefrontal social dominance circuits",hormonalResponse:"↑ Testosterone + Dopamine",behaviouralOutcome:"Encourages assertive behaviour"},Lighting:{actual:"Heroic spotlighting feature lighting",designIntent:"Symbolise leadership visibility",neurologicalResponse:"Enhances performance confidence",brainRegions:"Frontal performance circuits",hormonalResponse:"↑ Dopamine performance reward",behaviouralOutcome:"Encourages bold action"} },TSWP:{stimulationTolerance:"Moderate performance stimulation",spatialSituation:"Leadership focal zones",windowStrategy:"Forward facing expansive windows",personalisation:"Achievement trophies encouraged"}},
+
+"🔥 The Inner Flame":{ WFFL:{ Walls:{actual:"Deep crimson and plum gradients",designIntent:"Channel intense creative passion",neurologicalResponse:"Stimulates creative drive circuits",brainRegions:"Default mode + salience network coupling",hormonalResponse:"↑ Dopamine + adrenaline creative arousal",behaviouralOutcome:"Encourages intense creative productivity"},Flooring:{actual:"Dark polished wood floors",designIntent:"Ground passionate emotional surges",neurologicalResponse:"Enhances sensory stability",brainRegions:"Parietal sensory control",hormonalResponse:"Balanced adrenaline regulation",behaviouralOutcome:"Supports focused passion"},Furniture:{actual:"Art studio multifunction creative desks",designIntent:"Encourage creative output",neurologicalResponse:"Activates divergent thinking circuits",brainRegions:"Temporal association cortex",hormonalResponse:"↑ Dopamine creative reward",behaviouralOutcome:"Promotes artistic production"},Lighting:{actual:"Directional studio spotlight lighting",designIntent:"Highlight creative focal activity",neurologicalResponse:"Enhances attentional immersion",brainRegions:"Frontal focus network",hormonalResponse:"↑ Dopamine focus",behaviouralOutcome:"Encourages creative immersion"} },TSWP:{stimulationTolerance:"High creative stimulation",spatialSituation:"Studio zoning",windowStrategy:"North facing artist windows",personalisation:"Artistic expression displays"}},
+
+"🕯️ The Guiding Light":{ WFFL:{ Walls:{actual:"Warm ivory + wisdom parchment textures",designIntent:"Encourage mentorship calm authority",neurologicalResponse:"Promotes cognitive clarity processing",brainRegions:"Prefrontal reasoning networks",hormonalResponse:"↑ Serotonin balanced reasoning",behaviouralOutcome:"Encourages guidance behaviour"},Flooring:{actual:"Neutral woven rugs + warm oak",designIntent:"Ground wise stability",neurologicalResponse:"Enhances sensory reliability",brainRegions:"Somatosensory trust circuits",hormonalResponse:"Balanced cortisol",behaviouralOutcome:"Supports calm leadership"},Furniture:{actual:"Library and teaching seating layouts",designIntent:"Encourage knowledge sharing",neurologicalResponse:"Activates mirror learning circuits",brainRegions:"Temporal knowledge integration",hormonalResponse:"↑ Oxytocin teaching bonding",behaviouralOutcome:"Encourages mentoring"},Lighting:{actual:"Candle tone layered ambient lighting",designIntent:"Symbolise wisdom transmission",neurologicalResponse:"Stimulates reflective cognition",brainRegions:"Default mode reflective network",hormonalResponse:"Serotonin calm thinking",behaviouralOutcome:"Supports thoughtful dialogue"} },TSWP:{stimulationTolerance:"Low calm intellectual environment",spatialSituation:"Conversation knowledge zones",windowStrategy:"Balanced reading daylight",personalisation:"Knowledge artefacts"}},
+
+"🌠 The Boundless Dreamer":{ WFFL:{ Walls:{actual:"Cosmic blue gradient star textures",designIntent:"Encourage visionary thinking",neurologicalResponse:"Stimulates abstract future simulation",brainRegions:"Default mode visionary processing",hormonalResponse:"↑ Dopamine inspiration reward",behaviouralOutcome:"Encourages visionary ideation"},Flooring:{actual:"Light reflective polished flooring",designIntent:"Symbolise limitless possibility",neurologicalResponse:"Enhances spatial expansion perception",brainRegions:"Parietal spatial expansion network",hormonalResponse:"↑ Dopamine novelty stimulation",behaviouralOutcome:"Encourages exploratory thinking"},Furniture:{actual:"Floating futuristic modular seating",designIntent:"Encourage unconventional thinking posture",neurologicalResponse:"Stimulates creative posture cognition",brainRegions:"Temporal association creativity circuits",hormonalResponse:"↑ Dopamine creative stimulation",behaviouralOutcome:"Promotes visionary brainstorming"},Lighting:{actual:"Dynamic galaxy projection lighting",designIntent:"Trigger awe based cognition",neurologicalResponse:"Stimulates awe neurochemistry",brainRegions:"Prefrontal + limbic awe coupling",hormonalResponse:"↑ Oxytocin + Dopamine awe response",behaviouralOutcome:"Encourages limitless creativity"} },TSWP:{stimulationTolerance:"Moderate high visionary stimulation",spatialSituation:"Open cosmic spatial layouts",windowStrategy:"Sky view observatory windows",personalisation:"Future concept artefacts"}},
+
+"🎙️ The Brave Creator":{ WFFL:{ Walls:{actual:"Energetic coral + performance spotlight accents",designIntent:"Encourage authentic expression",neurologicalResponse:"Stimulates expressive language circuits",brainRegions:"Broca expressive cortex",hormonalResponse:"↑ Dopamine expressive reward",behaviouralOutcome:"Encourages performance confidence"},Flooring:{actual:"Stage inspired dark flooring",designIntent:"Reinforce performance identity",neurologicalResponse:"Activates performance spatial memory",brainRegions:"Motor performance cortex",hormonalResponse:"↑ Adrenaline controlled stage arousal",behaviouralOutcome:"Promotes expressive movement"},Furniture:{actual:"Recording and performance seating layouts",designIntent:"Encourage content creation",neurologicalResponse:"Enhances production creativity circuits",brainRegions:"Temporal auditory association cortex",hormonalResponse:"↑ Dopamine creative production",behaviouralOutcome:"Supports artistic output"},Lighting:{actual:"Performance stage lighting gradients",designIntent:"Symbolise audience visibility",neurologicalResponse:"Enhances performance neural readiness",brainRegions:"Reticular alertness activation",hormonalResponse:"↑ Adrenaline + dopamine",behaviouralOutcome:"Encourages bold expression"} },TSWP:{stimulationTolerance:"High performance stimulation",spatialSituation:"Stage focal zoning",windowStrategy:"Dynamic lighting exposure",personalisation:"Creative identity displays"}},
+
+"❤️‍🔥 The Compassionate Flame":{ WFFL:{ Walls:{actual:"Warm terracotta and blush gradients",designIntent:"Promote emotional connection warmth",neurologicalResponse:"Enhances empathy neural resonance",brainRegions:"Mirror neuron empathy system",hormonalResponse:"↑ Oxytocin bonding",behaviouralOutcome:"Encourages caregiving behaviours"},Flooring:{actual:"Soft woven earth toned carpets",designIntent:"Enhance relational comfort grounding",neurologicalResponse:"Tactile bonding stimulation",brainRegions:"Somatosensory bonding circuits",hormonalResponse:"↑ Oxytocin comfort bonding",behaviouralOutcome:"Supports nurturing interaction"},Furniture:{actual:"Group conversation seating circles",designIntent:"Encourage social bonding",neurologicalResponse:"Enhances social synchronisation networks",brainRegions:"Temporal social cognition cortex",hormonalResponse:"↑ Oxytocin social attachment",behaviouralOutcome:"Promotes deep connection"},Lighting:{actual:"Warm golden ambient lighting",designIntent:"Reinforce emotional warmth atmosphere",neurologicalResponse:"Stimulates serotonin comfort regulation",brainRegions:"Hypothalamic emotional warmth circuits",hormonalResponse:"↑ Serotonin emotional bonding",behaviouralOutcome:"Encourages safe emotional sharing"} },TSWP:{stimulationTolerance:"Moderate relational sensory profile",spatialSituation:"Circular social layouts",windowStrategy:"Community facing windows",personalisation:"Relationship artefacts encouraged"}},
+
+"🌟 The Luminous Soul":{ WFFL:{ Walls:{actual:"Soft radiant pearl + iridescent tones",designIntent:"Symbolise emotional wholeness",neurologicalResponse:"Stimulates transcendence cognitive states",brainRegions:"Default mode spiritual integration network",hormonalResponse:"↑ Serotonin + Oxytocin transcendence",behaviouralOutcome:"Encourages peaceful presence"},Flooring:{actual:"Light marble or polished limestone",designIntent:"Enhance reflective clarity perception",neurologicalResponse:"Enhances visual spacious clarity",brainRegions:"Occipital spatial clarity cortex",hormonalResponse:"Balanced serotonin calm equilibrium",behaviouralOutcome:"Supports meditative movement"},Furniture:{actual:"Minimal zen floating seating",designIntent:"Encourage mindful presence posture",neurologicalResponse:"Stimulates mindfulness neural networks",brainRegions:"Anterior cingulate mindfulness regulation",hormonalResponse:"↓ Cortisol, ↑ Serotonin",behaviouralOutcome:"Promotes calm awareness"},Lighting:{actual:"Halo ambient lighting with skylight focus",designIntent:"Symbolise spiritual illumination",neurologicalResponse:"Stimulates awe and transcendence networks",brainRegions:"Prefrontal-limbic integration",hormonalResponse:"↑ Oxytocin + serotonin peace state",behaviouralOutcome:"Encourages inner peace"} },TSWP:{stimulationTolerance:"Low sacred calm sensory profile",spatialSituation:"Open contemplative flow",windowStrategy:"Skylight celestial exposure",personalisation:"Spiritual reflective artefacts"}}
+};
+
+
+// ======================================================
+// INTEGRATED ROOM ANALYSIS (Connects to Quiz)
+// ======================================================
+
+window.showRoomAnalysis = function() {
+  console.log("Loading Room Analysis...");
+
+  // 1. Get Data from Quiz
+  const storedTop = localStorage.getItem('archetypeTopThree');
+  if (!storedTop) {
+    console.warn("No archetype data found.");
+    return;
+  }
+  
+  const topThree = JSON.parse(storedTop);
+  const mainArchetype = topThree[0]; // We focus on the #1 result for the room
+  
+  // 2. Get Design Data
+  const designData = ARCHETYPE_FULL_DESIGN[mainArchetype.name];
+  
+  if (!designData) {
+    console.error("No design data found for: " + mainArchetype.name);
+    return;
+  }
+
+  // 3. Render Top Results Summary
+  const topResultsContainer = document.getElementById("topResults");
+  if (topResultsContainer) {
+    topResultsContainer.innerHTML = "";
+    topThree.forEach(arch => {
+      // Simple percentage card
+      topResultsContainer.innerHTML += `
+        <div style="background:#fff; color:#000; padding:10px; border-radius:8px; flex:1; text-align:center; box-shadow:0 2px 5px rgba(0,0,0,0.1);">
+          <div style="font-weight:bold; font-size:0.9rem;">${arch.name}</div>
+          <div style="font-size:1.2rem; color:#4B0082;">${arch.percentage}%</div>
+        </div>
+      `;
+    });
+    topResultsContainer.style.display = "flex";
+    topResultsContainer.style.gap = "10px";
+  }
+
+  // 4. Render WFFL (Walls, Flooring, Furniture, Lighting)
+  const wfflContainer = document.getElementById("wfflContainer");
+  const detailPanel = document.getElementById("elementDetailPanel");
+  
+  if (wfflContainer && designData.WFFL) {
+    wfflContainer.innerHTML = "";
+    wfflContainer.style.display = "grid";
+    wfflContainer.style.gridTemplateColumns = "repeat(2, 1fr)"; 
+    wfflContainer.style.gap = "10px";
+
+    // Create buttons for each element
+    Object.keys(designData.WFFL).forEach(key => {
+      const element = designData.WFFL[key];
+      const btn = document.createElement("div");
+      btn.style.background = "#fff";
+      btn.style.padding = "15px";
+      btn.style.borderRadius = "10px";
+      btn.style.cursor = "pointer";
+      btn.style.boxShadow = "0 2px 5px rgba(0,0,0,0.1)";
+      
+      btn.innerHTML = `<strong style="color:#4B0082;">${key}</strong><br><span style="font-size:0.85rem; color:#555;">${element.actual}</span>`;
+      
+      // Click to show details
+      btn.onclick = () => {
+        detailPanel.style.display = "block";
+        detailPanel.style.background = "#fff";
+        detailPanel.style.padding = "20px";
+        detailPanel.style.marginTop = "20px";
+        detailPanel.style.borderRadius = "10px";
+        detailPanel.innerHTML = `
+          <h3 style="color:#4B0082; margin-top:0;">${key} Analysis</h3>
+          <p><strong>🧠 Design Intent:</strong> ${element.designIntent}</p>
+          <p><strong>⚡ Neurological Response:</strong> ${element.neurologicalResponse}</p>
+          <p><strong>🧪 Hormonal Response:</strong> ${element.hormonalResponse}</p>
+          <p><strong>👤 Behavioural Outcome:</strong> ${element.behaviouralOutcome}</p>
+        `;
+      };
+      
+      wfflContainer.appendChild(btn);
+    });
+  }
+
+  // 5. Render TSWP (Profile)
+  const tswpContainer = document.getElementById("tswpContainer");
+  if (tswpContainer && designData.TSWP) {
+    tswpContainer.innerHTML = `
+      <div style="background:#fff; padding:15px; border-radius:10px; margin-top:10px; color:#333;">
+        <p><strong>Stimulation:</strong> ${designData.TSWP.stimulationTolerance}</p>
+        <p><strong>Layout:</strong> ${designData.TSWP.spatialSituation}</p>
+        <p><strong>Window Situation:</strong> ${designData.TSWP.windowStrategy}</p>
+        <p><strong>Vibe:</strong> ${designData.TSWP.personalisation}</p>
+      </div>
+    `;
+  }
+};
+//------profile code-------//
+/* ---------------- ASSET REGISTRY ---------------- */
+          {avatar.eyes && <img src={avatar.eyes} className="absolute top-0" />}
+          <img src={ASSETS.smile} className="absolute top-0" />
+          {avatar.hair && <img src={avatar.hair} className="absolute top-0" />}
+          {avatar.top && <img src={avatar.top} className="absolute top-0" />}
+          {avatar.bottom && <img src={avatar.bottom} className="absolute top-0" />}
+          {avatar.dress && <img src={avatar.dress} className="absolute top-0" />}
+        </div>
+
+        <div className="mt-4">
+          <label className="text-sm">Shade</label>
+          <input
+            type="color"
+            value={avatar.shade}
+            onChange={(e) => setAvatar({ ...avatar, shade: e.target.value })}
+          />
+        </div>
+      </div>
+
+      {/* -------- CONTROLS -------- */}
+      <div className="col-span-2 space-y-4">
+        <h2 className="text-xl font-semibold">Customization</h2>
+
+        <Section title="Face Shape" items={ASSETS.faceShapes} onSelect={(i) => setAvatar({ ...avatar, face: i })} />
+        <Section title="Eyes" items={ASSETS.eyes} onSelect={(i) => setAvatar({ ...avatar, eyes: i })} />
+        <Section title="Hair (Girls)" items={ASSETS.hairGirls} onSelect={(i) => setAvatar({ ...avatar, hair: i })} />
+        <Section title="Hair (Boys)" items={ASSETS.hairBoys} onSelect={(i) => setAvatar({ ...avatar, hair: i })} />
+        <Section title="Tops" items={ASSETS.tops} onSelect={selectTop} />
+        <Section title="Pants / Skirts" items={ASSETS.pants} onSelect={selectBottom} />
+        <Section title="Dresses" items={ASSETS.dresses} onSelect={selectDress} />
+      </div>
+
+      {/* -------- PROFILE INFO -------- */}
+      <div className="col-span-3 grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
+        <div>
+          <h3 className="font-semibold">User Info</h3>
+          <input placeholder="Email" className="border p-2 w-full" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <button onClick={loadProfile} className="mt-2 text-sm underline">Load Existing Profile</button>
+          <input placeholder="Username" className="border p-2 w-full mt-2" value={username} onChange={(e) => setUsername(e.target.value)} />
+          <textarea placeholder="Bio" className="border p-2 w-full mt-2" value={bio} onChange={(e) => setBio(e.target.value)} />
+        </div>
+
+        <ResultBlock title="Result Page" />
+        <ResultBlock title="Colour Analysis" />
+        <ResultBlock title="Room Analysis" />
+      </div>
+
+      <div className="col-span-3 text-center mt-6">
+        <button onClick={saveProfile} className="px-6 py-2 bg-black text-white rounded-xl">Save Profile</button>
+      </div>
+    </div>
+  );
+}
+
+/* ---------------- REUSABLE COMPONENTS ---------------- */
+function Section({ title, items, onSelect }) {
+  return (
+    <div>
+      <h4 className="font-medium mb-2">{title}</h4>
+      <div className="flex gap-2 overflow-x-auto">
+        {items.map((img, i) => (
+          <img key={i} src={img} className="w-16 cursor-pointer border" onClick={() => onSelect(img)} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ResultBlock({ title }) {
+  return (
+    <div className="border p-3 rounded-xl">
+      <h4 className="font-semibold mb-2">{title}</h4>
+      <p className="text-sm text-gray-600">Redisplayed exactly as generated earlier.</p>
+    </div>
+  );
+}</script>
+
+<!-- BACK BUTTON -->
+<button id="backBtn" onclick="goBack()" style="display:none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); padding: 12px 26px; border-radius: 999px; background: #111; color: #fff; border: none; font-size: 16px; font-weight: 600; cursor: pointer; z-index: 9999;">⬅ Back</button>
+
+</body>
+</html>
+<style>
+#backBtn {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 26px;
+  border-radius: 999px;
+  background: #111;
+  color: #fff;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  z-index: 9999;
+  display: none;
+}
+</style>
+</body>
+</html>
+
+
+ 
